@@ -8,9 +8,11 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const nunjucks = require('nunjucks')
 const Queue = require('./configs/queue')
+const BullBoard = require('bull-board')
 
 
 var app = express();
+
 
 dotenv.config({path: './configs/.env'})
 
@@ -19,6 +21,8 @@ nunjucks.configure('public',{
     express: app,
     watch: true
 })
+
+BullBoard.setQueues([new BullBoard.BullAdapter(Queue)])
 app.set('view engine', '.html')
 app.use(logger('dev'));
 app.use(express.json());
@@ -29,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', indexRouter);
+app.use('/admin/queues', BullBoard.router)
 app.use('/users', usersRouter);
 app.get('/notas', async function notasFiscais(req, res){
     const query = `SELECT * FROM notas_fiscais WHERE status <> 'Enviada' ORDER BY id`

@@ -1,4 +1,4 @@
-require('dotenv').config({path: './configs/.env'})
+require('dotenv').config({path: '.env'})
 
 module.exports  ={
     page : 1, 

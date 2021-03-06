@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./bin/www",
-    "queue": "nodemon queue.js"
+    "dev": "nodemon src/bin/www",
+    "queue": "nodemon src/queue.js"
   },
   "dependencies": {
     "axios": "^0.21.0",

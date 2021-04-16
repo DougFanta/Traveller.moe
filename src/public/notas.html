@@ -17,12 +17,14 @@
     <thead>
     <tr>
       <th>ID</th>
-      <th>Série</th>
+      <th>Chave De Acesso</th>
       <th>Nº Nota</th>
-      <th>Pedido</th>
+      <th>Série</th>
       <th>Data De Emissão</th>
+      <th>Pedido</th>
       <th>Status</th>
       <th>Conta</th>
+      <th>Link Danfe</th>
     </tr> 
   </thead>
 
@@ -34,12 +36,14 @@
   <tbody>
   <tr>
     <td scope="col">{{nota.id}}</td>
+    <td scope="col">{{nota.cave_acesso}}</td>
+    <td scope="col">{{nota.numero_nota}}</td>
     <td scope="col">{{nota.serie}}</td>
-    <td scope="col">{{nota.numero}}</td>
+    <td scope="col">{{nota.data_emissao}}</td>
     <td scope="col">{{nota.pedido_loja}}</td>
-    <td scope="col" id='data'>{{nota.data_emissao}}</td>
     <td scope="col">{{nota.status}}</td>
     <td scope="col">{{nota.conta_bling}}</td>
+    <td scope="col"><a href="{{nota.link_danfe}}" target="_blank" class="btn btn-link">Visualizar Danfe</a></td>
   </tr>
   </tbody>
   {%endfor%}

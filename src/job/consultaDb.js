@@ -23,6 +23,7 @@ let consultaDb = async function (){
         data = `${dia}:${min}:${seg}`
     }else{
         data = `${new Date().toLocaleDateString()} 01:00:00`
+        console.log(data)
     }
 
         return data

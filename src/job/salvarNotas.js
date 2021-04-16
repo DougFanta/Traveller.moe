@@ -8,10 +8,9 @@ const {consultaDb} = require('./consultaDb')
 async function getNfs(dataInicial,apikey){
 request.get(`page=${url.page}/json/&filters=dataEmissao[${dataInicial} TO ${new Date().toLocaleString()}]; ${url.situation}&${apikey}`)
 .then(response =>{
+    
     if(response.data.retorno.notasfiscais){
         saveData(catchData(response.data.retorno.notasfiscais))
-    }else{
-        console.log('Não há notas a serem cadastradas')
     }
     
 })
@@ -20,44 +19,43 @@ request.get(`page=${url.page}/json/&filters=dataEmissao[${dataInicial} TO ${new 
 }
 
 function catchData(data){
-    const serie = []
-    const numero = []
-    const pedidoLoja = []
-    const dataEmissao = []
-    const situacao = [] 
-    let cnpj = []
-    for(let i = 0; i < data.length; i++){
-        serie.push(data[i].notafiscal.serie)
-        numero.push(data[i].notafiscal.numero)
-        pedidoLoja.push(data[i].notafiscal.numeroPedidoLoja)
-        dataEmissao.push(data[i].notafiscal.dataEmissao)
-        situacao.push(data[i].notafiscal.situacao)
-        cnpj.push(data[i].notafiscal.chaveAcesso)
-    }
-    cnpj = cnpj.map(i =>i.slice(6,20))
+    const chaveDeAcesso = data.map(i => i.notafiscal.chaveAcesso)
+    const numero = data.map(i => i.notafiscal.numero)
+    const serie = data.map(i => i.notafiscal.serie)
+    const dataEmissao = data.map(i => i.notafiscal.dataEmissao)
+    const pedidoLoja = data.map(i => i.notafiscal.numeroPedidoLoja)
+    const situacao = data.map(i => i.notafiscal.situacao)
+    const cnpj = chaveDeAcesso.map(i =>i.slice(6,20))
+    const linkDanfe = data.map(i => i.notafiscal.linkDanfe)
         
-    return {serie, numero, pedidoLoja, dataEmissao, situacao, cnpj}
+    return {chaveDeAcesso, numero, serie, dataEmissao, pedidoLoja, situacao, cnpj, linkDanfe}
 }
 
 function saveData(dados){
+    
         Database.then(async db =>{
+            
             for(let i = 0; i < dados.serie.length; i++){
 
                 await db.run(`
                 INSERT INTO notas_fiscais(
+                    cave_acesso,
+                    numero_nota,
                     serie,
-                    numero,
-                    pedido_loja,
                     data_emissao,
+                    pedido_loja,
                     status,
-                    conta_bling
+                    conta_bling,
+                    link_danfe
                 ) VALUES(
-                    "${dados.serie[i]}",
+                    "${dados.chaveDeAcesso[i]}",
                     "${dados.numero[i]}",
-                    "${dados.pedidoLoja[i]}",
+                    "${dados.serie[i]}",
                     "${dados.dataEmissao[i]}",
+                    "${dados.pedidoLoja[i]}",
                     "${dados.situacao[i]}",
-                    "${dados.cnpj[i]}"
+                    "${dados.cnpj[i]}",
+                    "${dados.linkDanfe[i]}"
                 
                 )`) 
                 console.log(`cadastradas ${i+1} notas`)     
@@ -69,9 +67,14 @@ function saveData(dados){
     
 }
 async function call(data){
-    await getNfs(data, url.apikey1)
-    await getNfs(data, url.apikey2)
-    await getNfs(data, url.apikey3)
+    Promise.all([
+        await getNfs(data, url.apikey1),
+        await getNfs(data, url.apikey2),
+        await getNfs(data, url.apikey3)
+    ])
+    .then(response => console.log('Importação de notas finalizada'))
+    .catch(err => console.log(err))
+    
 }
     
 
@@ -91,7 +94,7 @@ function execute(){
 
 module.exports = { 
     key: "Salvar Notas", 
-    async handle(){  
-          await execute()
+    handle(){  
+        execute()
   }
 }

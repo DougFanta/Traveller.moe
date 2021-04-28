@@ -39,7 +39,7 @@ controller.update = async(req, res) =>{
         const numNota = req.body.numero
         
         let query = `UPDATE notas_fiscais SET status = 'Enviada' 
-                     WHERE numero = '${numNota}'`
+                     WHERE numero_nota = '${numNota}'`
         
         Database.then(async db =>{
             await db.run(query)

@@ -1,6 +1,6 @@
 const Database = require('../configs/createdb') 
 
-let consultaDb = async function (){ 
+module.exports  = {async consultaDb (){ 
     let resultado = await Database
        .then( async db =>
             await db.all(`SELECT data_emissao FROM notas_fiscais ORDER BY ID DESC LIMIT 1`)
@@ -23,13 +23,13 @@ let consultaDb = async function (){
         data = `${dia}:${min}:${seg}`
     }else{
         data = `${new Date().toLocaleDateString()} 01:00:00`
-        console.log(data)
+        
     }
 
         return data
     }
-
-module.exports = { 
-    consultaDb
 }
+
+
+
 

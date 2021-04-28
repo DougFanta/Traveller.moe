@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "nodemon src/bin/www",
-    "queue": "nodemon src/queue.js"
+    "queue": "nodemon src/queue.js",
+    "database": "node src/configs/createdb.js"
   },
   "dependencies": {
     "axios": "^0.21.0",

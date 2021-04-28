@@ -1,6 +1,6 @@
 const Database = require('../configs/createdb')
 const {v4: uuidv4} = require('uuid')
-const crypto = require("crypto")
+const {createHash} = require('../utils/hashBilder')
 const controller = {}
 
 controller.create = async(req, res) =>{
@@ -15,11 +15,17 @@ controller.create = async(req, res) =>{
     if(!role){
         return res.status(400).json({error: "you must inform the role"})
     }
-   const id = uuidv4()
-   const secret = password
-   const hash = crypto.createHash('sha256', secret).digest('hex')
-   console.log(hash)
-   
+    const id = uuidv4()
+
+    const encriptedPsw = createHash(password)
+    const payload = {
+        id,
+        login,
+        created_at: new Date().toISOString(),
+        role,
+        situacao: "activated"
+
+    }
     const query = `INSERT INTO users(
         id,
         login,
@@ -28,19 +34,37 @@ controller.create = async(req, res) =>{
         role,
         situacao
     ) VALUES(
-        "${id}",
-        "${login}",
-        "${hash}",
-        "${new Date().toISOString()}",
-        "${role}",
-        "activeted"
+        "${payload.id}",
+        "${payload.login}",
+        "${encriptedPsw}",
+        "${payload.created_at}",
+        "${payload.role}",
+        "${payload.situacao}"
     )`
 
     const db = await Database
     const user = await db.all(query)
 
-    return res.status(201).json({massage: "User created"})
+    return res.status(201).json(payload)
     
+}
+
+controller.edit = async (req, res) =>{
+    const id = req.params
+
+    const user = Database.then(
+        async(db) =>{
+            await db.run(`
+                select * from users where id = ${id}
+            `)
+        }
+    )
+    
+    if(!user){
+        return res.status(404).json({error: "User does not exists"})
+    }
+
+
 }
 
 module.exports = controller

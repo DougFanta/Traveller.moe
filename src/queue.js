@@ -1,5 +1,5 @@
 const dotenv = require('dotenv')
-dotenv.config({path: './configs/.env'})
+dotenv.config({ path: './configs/.env' })
 
 console.log("Queue on")
 

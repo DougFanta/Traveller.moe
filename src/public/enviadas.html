@@ -3,8 +3,9 @@
 <head>
   <title>Express</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 </head>
 
 <body>
@@ -14,35 +15,35 @@
   <h1>Notas Ficais Enviadas</h1>
   <table class='table'>
     <thead>
-    <tr>
-      <th>ID</th>
-      <th>Série</th>
-      <th>Nº Nota</th>
-      <th>Pedido</th>
-      <th>Data De Emissão</th>
-      <th>Status</th>
-      <th>Conta</th>
-    </tr> 
-  </thead>
-  {% if notasEnviadas ==""%}
-  
-  <p class="no-results">Não há Notas Enviadas</p>
- 
-  {%else%}
+      <tr>
+        <th>ID</th>
+        <th>Série</th>
+        <th>Nº Nota</th>
+        <th>Pedido</th>
+        <th>Data De Emissão</th>
+        <th>Status</th>
+        <th>Conta</th>
+      </tr>
+    </thead>
+    {% if notasEnviadas ==""%}
+
+    <p class="no-results">Não há Notas Enviadas</p>
+
+    {%else%}
     {%for nota in notasEnviadas%}
     <tbody>
-    <tr>
-      <td scope="col">{{nota.id}}</td>
-      <td scope="col">{{nota.serie}}</td>
-      <td scope="col">{{nota.numero_nota}}</td>
-      <td scope="col">{{nota.pedido_loja}}</td>
-      <td scope="col" id='data'>{{nota.data_emissao}}</td>
-      <td scope="col">{{nota.status}}</td>
-      <td scope="col">{{nota.conta_bling}}</td>
-    </tr>
+      <tr>
+        <td scope="col">{{nota.id}}</td>
+        <td scope="col">{{nota.serie}}</td>
+        <td scope="col">{{nota.numero_nota}}</td>
+        <td scope="col">{{nota.pedido_loja}}</td>
+        <td scope="col" id='data'>{{nota.data_emissao}}</td>
+        <td scope="col">{{nota.status}}</td>
+        <td scope="col">{{nota.conta_bling}}</td>
+      </tr>
     </tbody>
     {%endfor%}
-  {%endif%}
+    {%endif%}
   </table>
 </body>
 

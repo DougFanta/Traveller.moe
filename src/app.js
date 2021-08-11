@@ -9,7 +9,7 @@ const router = require('./routes/routes');
 
 var app = express();
 
-nunjucks.configure('src/public',{
+nunjucks.configure('src/public', {
     autoescape: true,
     express: app,
     watch: true

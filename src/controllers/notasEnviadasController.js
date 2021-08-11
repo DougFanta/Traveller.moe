@@ -7,6 +7,6 @@ controller.show = async(req, res) =>{
     const db = await Database
     const notasEnviadas = await db.all(query)
     res.render('enviadas.html',{notasEnviadas})
-}
+}   
 
 module.exports = controller

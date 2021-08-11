@@ -4,7 +4,7 @@ const salvarNotas = require('../job/salvarNotas')
 
 const salvarNotasQueue = new Queue(salvarNotas.key, redis)
 
-salvarNotasQueue.on('failed', (job) =>{
+salvarNotasQueue.on('failed', (job) => {
     console.log('Job failed', job.name, job.data)
 })
 

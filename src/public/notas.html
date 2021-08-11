@@ -3,49 +3,50 @@
 <head>
   <title>Express</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 </head>
 
 <body>
   <a href="/atualizar" class="btn btn-dark">Registrar Nota</a>
   <a href="/enviadas" class="btn btn-info">Notas Enviadas</a>
   <a href="/" class="btn btn-primary">Inicio</a>
-  
+
   <h1>Notas Ficais Pendentes</h1>
   <table class='table'>
     <thead>
-    <tr>
-      <th>Chave De Acesso</th>
-      <th>Nº Nota</th>
-      <th>Série</th>
-      <th>Data De Emissão</th>
-      <th>Pedido</th>
-      <th>Status</th>
-      <th>Conta</th>
-      <th>Link Danfe</th>
-    </tr> 
-  </thead>
+      <tr>
+        <th>Chave De Acesso</th>
+        <th>Nº Nota</th>
+        <th>Série</th>
+        <th>Data De Emissão</th>
+        <th>Pedido</th>
+        <th>Status</th>
+        <th>Conta</th>
+        <th>Link Danfe</th>
+      </tr>
+    </thead>
 
-{%if notas == ""%}
-  <p class="no-results">Não há Notas Pendentes</p>
- 
-{%else%}
-  {%for nota in notas%}
-  <tbody>
-  <tr>
-    <td scope="col">{{nota.cave_acesso}}</td>
-    <td scope="col">{{nota.numero_nota}}</td>
-    <td scope="col">{{nota.serie}}</td>
-    <td scope="col">{{nota.data_emissao}}</td>
-    <td scope="col">{{nota.pedido_loja}}</td>
-    <td scope="col">{{nota.status}}</td>
-    <td scope="col">{{nota.conta_bling}}</td>
-    <td scope="col"><a href="{{nota.link_danfe}}" target="_blank" class="btn btn-link">Visualizar Danfe</a></td>
-  </tr>
-  </tbody>
-  {%endfor%}
-{%endif%}
+    {%if notas == ""%}
+    <p class="no-results">Não há Notas Pendentes</p>
+
+    {%else%}
+    {%for nota in notas%}
+    <tbody>
+      <tr>
+        <td scope="col">{{nota.cave_acesso}}</td>
+        <td scope="col">{{nota.numero_nota}}</td>
+        <td scope="col">{{nota.serie}}</td>
+        <td scope="col">{{nota.data_emissao}}</td>
+        <td scope="col">{{nota.pedido_loja}}</td>
+        <td scope="col">{{nota.status}}</td>
+        <td scope="col">{{nota.conta_bling}}</td>
+        <td scope="col"><a href="{{nota.link_danfe}}" target="_blank" class="btn btn-link">Visualizar Danfe</a></td>
+      </tr>
+    </tbody>
+    {%endfor%}
+    {%endif%}
   </table>
 </body>
 

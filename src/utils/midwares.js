@@ -1,36 +1,36 @@
 const Database = require('../configs/createdb')
 module.exports = {
-    async verifyUserAlreadExists(req, res, next){
+    async verifyUserAlreadExists(req, res, next) {
         const { login } = req.body
         const query = `SELECT login FROM users WHERE login = '${login}'`
         const db = await Database
-        const user = await db.all(query)        
+        const user = await db.all(query)
         const userExists = user.some(i => i.login == login)
 
-        if(userExists){
-            return res.status(400).json({error: "User already exists"})
+        if (userExists) {
+            return res.status(400).json({ error: "User already exists" })
         }
 
         return next()
 
     },
 
-    async veryfyIfUserExists(req, res, next){
+    async veryfyIfUserExists(req, res, next) {
         const id = req.params
 
         const user = Database.then(
-            async(db) =>{
+            async (db) => {
                 await db.run(`
                 select * from users where id = ${id}
                 `)
-        }
-    )
-    
-    if(!user){
-        return res.status(404).json({error: "User does not exists"})
-    }
+            }
+        )
 
-    
-    return next()
+        if (!user) {
+            return res.status(404).json({ error: "User does not exists" })
+        }
+
+
+        return next()
     }
 }

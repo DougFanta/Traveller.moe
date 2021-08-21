@@ -1,10 +1,26 @@
-const Database = require('../configs/createdb')
-const {v4: uuidv4} = require('uuid')
 const {createHash} = require('../utils/hashBilder')
+const Users = require('../models/Users')
 const controller = {}
 
-controller.create = async(req, res) =>{
+
+controller.edit = async (req, res) =>{
+    const id = req.params
+
+    try {
+        const user = await Users.findByIdAndUpdate(id, req.body)
+        if(!user){
+            return res.status(404).json({error: "User does not exists"})
+        }
+
+    }catch(erro){
+        console.log(erro)
+    } 
+    
+}
+
+controller.create = async(req, res) => {
     const {login, password, role} = req.body
+    
     if(!login){
         return res.status(400).json({error: "you must inform the login"})
     }
@@ -15,55 +31,23 @@ controller.create = async(req, res) =>{
     if(!role){
         return res.status(400).json({error: "you must inform the role"})
     }
-    const id = uuidv4()
-
+    
     const encriptedPsw = createHash(password)
     const payload = {
-        id,
         login,
+        password: encriptedPsw,
         created_at: new Date().toISOString(),
         role,
         situacao: "activated"
-
-    }
-    const query = `INSERT INTO users(
-        id,
-        login,
-        senha,
-        data_criacao,
-        role,
-        situacao
-    ) VALUES(
-        "${payload.id}",
-        "${payload.login}",
-        "${encriptedPsw}",
-        "${payload.created_at}",
-        "${payload.role}",
-        "${payload.situacao}"
-    )`
-
-    const db = await Database
-    const user = await db.all(query)
-
-    return res.status(201).json(payload)
-    
-}
-
-controller.edit = async (req, res) =>{
-    const id = req.params
-
-    const user = Database.then(
-        async(db) =>{
-            await db.run(`
-                select * from users where id = ${id}
-            `)
-        }
-    )
-    
-    if(!user){
-        return res.status(404).json({error: "User does not exists"})
     }
 
+    try {
+        await Users.create(payload)
+        res.status(201).json(payload)
+    } catch(error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
 
 }
 

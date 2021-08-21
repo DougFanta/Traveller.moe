@@ -7,3 +7,5 @@ const Queue = require('./configs/queue')
 const salvarNotasQueue = require('./job/salvarNotas')
 
 Queue.process(salvarNotasQueue.handle)
+
+  

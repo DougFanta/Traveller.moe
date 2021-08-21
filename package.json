@@ -5,16 +5,19 @@
   "scripts": {
     "dev": "nodemon src/bin/www",
     "queue": "nodemon src/queue.js",
+    "toolbox": "toolbox enter reddis",
     "database": "node src/configs/createdb.js"
   },
   "dependencies": {
     "axios": "^0.21.0",
     "bull": "^3.20.0",
     "bull-board": "^1.3.1",
+    "bullmq": "^1.40.4",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
+    "mongoose": "^5.13.7",
     "morgan": "~1.9.1",
     "nunjucks": "^3.2.2",
     "pug": "^3.0.0",

@@ -1,11 +1,11 @@
-const Database = require('../configs/createdb')
+const NotasFiscais = require('../models/NotasFiscais')
 
 const controller = {}
 
 controller.show = async(req, res) =>{
-    const query = `SELECT * FROM notas_fiscais WHERE status = 'Enviada'`
-    const db = await Database
-    const notasEnviadas = await db.all(query)
+    
+    const notasEnviadas = await NotasFiscais.find({status:"Enviado"})
+
     res.render('enviadas.html',{notasEnviadas})
 }   
 

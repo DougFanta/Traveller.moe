@@ -1,7 +1,8 @@
 const Database = require('../configs/createdb')
+const Users = require('../models/Users')
 module.exports = {
     async verifyUserAlreadExists(req, res, next) {
-        const { login } = req.body
+        /*const { login } = req.body
         const query = `SELECT login FROM users WHERE login = '${login}'`
         const db = await Database
         const user = await db.all(query)
@@ -9,7 +10,17 @@ module.exports = {
 
         if (userExists) {
             return res.status(400).json({ error: "User already exists" })
+        }*/
+
+        const { login } = req.body
+
+        let user = await Users.find({login: login })
+        
+        
+        if(user.length > 0){
+            return res.status(400).json({ error: "User already exists" })
         }
+        
 
         return next()
 
